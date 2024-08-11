@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
+import piggyBankLogo from "/src/assets/piggy-bank.png";
 
 export function Header() {
   return (
     <nav className="navbar navbar-expand-lg bg-body-secondary">
       <div className="container-fluid">
         <Link className="navbar-brand text-success" to="/">
-          <img className="m-2 header-logo" src="src/assets/piggy-bank.png" alt="piggy bank logo" />
+          <img className="m-2 header-logo" src={piggyBankLogo} alt="piggy bank logo" />
           Savr
         </Link>
         <button
@@ -27,7 +28,7 @@ export function Header() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" href="#">
+              <Link className="nav-link" to="/incomes/new">
                 Add
               </Link>
             </li>
