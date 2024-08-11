@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { IncomesIndex } from "./IncomesIndex";
 import { IncomesNew } from "./IncomesNew";
+import { Routes, Route } from "react-router-dom";
 
 export function Content() {
   const [incomes, setIncomes] = useState([]);
@@ -24,10 +25,13 @@ export function Content() {
   useEffect(handleIndexIncomes, []);
 
   return (
-    <div>
-      <h1>Welcome to Savr</h1>
-      <IncomesNew onCreateIncome={handleCreateIncome} />
-      <IncomesIndex incomes={incomes} />
-    </div>
+    <Routes>
+      <Route path="/" element={<IncomesIndex incomes={incomes} />} />
+    </Routes>
+    // <div>
+    //   <h1>Welcome to Savr</h1>
+    //   <IncomesNew onCreateIncome={handleCreateIncome} />
+    //   <IncomesIndex incomes={incomes} />
+    // </div>
   );
 }
