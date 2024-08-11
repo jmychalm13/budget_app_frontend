@@ -13,12 +13,20 @@ export function Content() {
     });
   };
 
+  const handleCreateIncome = (params, successCallback) => {
+    axios.post("http://localhost:3000/incomes.json", params).then((response) => {
+      console.log(response);
+      setIncomes([...incomes, response.data]);
+      successCallback();
+    });
+  };
+
   useEffect(handleIndexIncomes, []);
 
   return (
     <div>
       <h1>Welcome to Savr</h1>
-      <IncomesNew />
+      <IncomesNew onCreateIncome={handleCreateIncome} />
       <IncomesIndex incomes={incomes} />
     </div>
   );

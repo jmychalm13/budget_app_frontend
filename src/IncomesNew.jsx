@@ -1,8 +1,15 @@
-export function IncomesNew() {
+/* eslint-disable react/prop-types */
+export function IncomesNew(props) {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const params = new FormData(event.target);
+    props.onCreateIncome(params, () => event.target.reset());
+  };
+
   return (
     <div>
       <h1>New Income</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div>
           Source: <input type="text" name="source" />
         </div>
@@ -12,6 +19,7 @@ export function IncomesNew() {
         <div>
           Date: <input type="date" name="date" />
         </div>
+        <button type="submit">Create Income</button>
       </form>
     </div>
   );
