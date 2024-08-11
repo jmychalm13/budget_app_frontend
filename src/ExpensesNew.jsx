@@ -1,22 +1,29 @@
-/* eslint-disable react/prop-types */
-export function IncomesNew(props) {
+import axios from "axios";
+
+export function ExpensesNew(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const params = new FormData(event.target);
-    props.onCreateIncome(params, () => event.target.reset());
+    props.onCreateExpense(params, () => event.target.reset());
   };
 
   return (
-    <div className="vh-100 container mt-5">
+    <div className="container m-5">
       <div className="card bg-success-subtle p-4">
-        <h1 className="text-center">New Income</h1>
+        <h1 className="text-center">New Expense</h1>
         <form onSubmit={handleSubmit}>
           <div className="row mb-3">
-            <label htmlFor="source" className="col-sm-2 col-form-label">
-              Source
+            <label htmlFor="category" className="col-sm-2 col-form-label">
+              Category
             </label>
             <div className="col-sm-10">
-              <input type="text" className="form-control" id="source" name="source" placeholder="Enter income source" />
+              <input
+                type="text"
+                className="form-control"
+                id="source"
+                name="category"
+                placeholder="Enter expense category"
+              />
             </div>
           </div>
           <div className="row mb-3">
@@ -29,7 +36,7 @@ export function IncomesNew(props) {
                 className="form-control"
                 id="amount"
                 name="amount"
-                placeholder="Enter income amount"
+                placeholder="Enter expense amount"
               />
             </div>
           </div>
