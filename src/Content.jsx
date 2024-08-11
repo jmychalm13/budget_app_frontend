@@ -27,6 +27,7 @@ export function Content() {
   return (
     <Routes>
       <Route path="/" element={<IncomesIndex incomes={incomes} />} />
+      <Route path="/incomes/new" element={<IncomesNew onCreateIncome={handleCreateIncome} />} />
     </Routes>
     // <div>
     //   <h1>Welcome to Savr</h1>
