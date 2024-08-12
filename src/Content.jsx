@@ -7,29 +7,18 @@ import { Login } from "./Login";
 import { Routes, Route } from "react-router-dom";
 
 export function Content() {
-  const [incomes, setIncomes] = useState([]);
-
-  const handleIndexIncomes = () => {
-    axios.get("http://localhost:3000/incomes.json").then((response) => {
-      setIncomes(response.data);
-    });
-  };
-
-  const handleCreateIncome = (params, successCallback) => {
-    axios.post("http://localhost:3000/incomes.json", params).then((response) => {
-      setIncomes([...incomes, response.data]);
-      successCallback();
-    });
-  };
-
-  useEffect(handleIndexIncomes, []);
+  // const handleIndexExpenses = () => {
+  //   axios.get("http://localhost:3000/expenses.json").then((response) => {
+  //     setExpenses(response.data);
+  //   });
+  // };
 
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/" element={<IncomesIndex incomes={incomes} />} />
-      <Route path="/incomes/new" element={<IncomesNew onCreateIncome={handleCreateIncome} />} />
-      <Route path="/expenses" element={<ExpensesIndex />} />
+      <Route path="/" element={<IncomesIndex />} />
+      {/* <Route path="/incomes/new" element={<IncomesNew onCreateIncome={handleCreateIncome} />} />
+      <Route path="/expenses" element={<ExpensesIndex expenses={expenses} />} /> */}
     </Routes>
   );
 }

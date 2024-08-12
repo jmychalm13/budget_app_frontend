@@ -1,5 +1,4 @@
-import axios from "axios";
-
+/* eslint-disable react/prop-types */
 export function ExpensesNew(props) {
   const handleSubmit = (event) => {
     event.preventDefault();

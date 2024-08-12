@@ -1,14 +1,26 @@
 /* eslint-disable react/prop-types */
-const calculateTotalIncome = (incomes) => {
-  return incomes.reduce((total, income) => {
-    const amount = Number(income.amount);
-    return total + (isNaN(amount) ? 0 : amount);
-  }, 0);
-};
+import axios from "axios";
+import { useState, useEffect } from "react";
 
-export function IncomesIndex(props) {
-  const totalIncome = calculateTotalIncome(props.incomes);
+export function IncomesIndex() {
+  const [incomes, setIncomes] = useState([]);
+
+  const calculateTotalIncome = (incomes) => {
+    return incomes.reduce((total, income) => {
+      const amount = Number(income.amount);
+      return total + (isNaN(amount) ? 0 : amount);
+    }, 0);
+  };
+  const totalIncome = calculateTotalIncome(incomes);
   const formattedTotalIncome = isNaN(totalIncome) ? 0 : totalIncome.toFixed(2);
+
+  const handleIndexIncomes = () => {
+    axios.get("http://localhost:3000/incomes.json").then((response) => {
+      setIncomes(response.data);
+    });
+  };
+
+  useEffect(handleIndexIncomes, []);
 
   return (
     <div className="bg-light vh-100">
@@ -23,7 +35,7 @@ export function IncomesIndex(props) {
             </tr>
           </thead>
           <tbody>
-            {props.incomes.map((income) => (
+            {incomes.map((income) => (
               <tr key={income.id}>
                 <td>{income.source}</td>
                 <td>{income.date}</td>
@@ -40,16 +52,6 @@ export function IncomesIndex(props) {
           </tfoot>
         </table>
       </div>
-      {/* {props.incomes.map((income) => (
-        <div className="d-flex justify-content-between" key={income.id}>
-          <p>{income.source}</p>
-          <strong>{income.amount}</strong>
-        </div>
-      ))}
-      <div className="d-flex justify-content-between">
-        <p>Total:</p>
-        <strong>${formattedTotalIncome}</strong>
-      </div> */}
     </div>
   );
 }

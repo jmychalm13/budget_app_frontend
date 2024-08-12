@@ -34,7 +34,7 @@ export function ExpensesIndex() {
     <div>
       <ExpensesNew onCreateExpense={handleCreateExpense} />
       <div className="container">
-        <h1 className="text-center">All Expenses</h1>
+        <h1 className="">All Expenses</h1>
         <table className="table table-responsive border">
           <thead>
             <tr>
