@@ -33,6 +33,7 @@ export function IncomesIndex() {
   return (
     <div className="bg-light vh-100">
       <div className="container">
+        <IncomesNew handleCreateIncome={handleCreateIncome} />
         <h1 className="text-center">All Income</h1>
         <table className="table table-responsive border">
           <thead>
@@ -60,7 +61,6 @@ export function IncomesIndex() {
           </tfoot>
         </table>
       </div>
-      <IncomesNew handleCreateIncome={handleCreateIncome} />
     </div>
   );
 }

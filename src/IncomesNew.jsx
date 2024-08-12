@@ -9,7 +9,7 @@ export function IncomesNew(props) {
   };
 
   return (
-    <div className="vh-100 container mt-5">
+    <div className="container mt-5">
       <div className="card bg-success-subtle p-4">
         <h1 className="text-center">New Income</h1>
         <form onSubmit={handleSubmit}>

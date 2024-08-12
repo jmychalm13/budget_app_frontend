@@ -28,8 +28,8 @@ export function Header() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/incomes/new">
-                Add
+              <Link className="nav-link" to="/expenses">
+                Expenses
               </Link>
             </li>
             <li className="nav-item">
