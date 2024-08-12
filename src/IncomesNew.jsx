@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
+// import axios from "axios";
+
 export function IncomesNew(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const params = new FormData(event.target);
-    props.onCreateIncome(params, () => event.target.reset());
+    props.handleCreateIncome(params, () => event.target.reset());
   };
 
   return (

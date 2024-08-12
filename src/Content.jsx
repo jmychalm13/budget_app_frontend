@@ -17,8 +17,8 @@ export function Content() {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/" element={<IncomesIndex />} />
-      {/* <Route path="/incomes/new" element={<IncomesNew onCreateIncome={handleCreateIncome} />} />
-      <Route path="/expenses" element={<ExpensesIndex expenses={expenses} />} /> */}
+      {/* <Route path="/incomes/new" element={<IncomesNew onCreateIncome={handleCreateIncome} />} /> */}
+      {/* <Route path="/expenses" element={<ExpensesIndex expenses={expenses} />} /> */}
     </Routes>
   );
 }

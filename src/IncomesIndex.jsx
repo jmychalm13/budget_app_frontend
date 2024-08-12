@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { IncomesNew } from "./IncomesNew";
 
 export function IncomesIndex() {
   const [incomes, setIncomes] = useState([]);
@@ -17,6 +18,13 @@ export function IncomesIndex() {
   const handleIndexIncomes = () => {
     axios.get("http://localhost:3000/incomes.json").then((response) => {
       setIncomes(response.data);
+    });
+  };
+
+  const handleCreateIncome = (params, successCallback) => {
+    axios.post("http://localhost:3000/incomes.json", params).then((response) => {
+      setIncomes([...incomes, response.data]);
+      successCallback();
     });
   };
 
@@ -52,6 +60,7 @@ export function IncomesIndex() {
           </tfoot>
         </table>
       </div>
+      <IncomesNew handleCreateIncome={handleCreateIncome} />
     </div>
   );
 }
