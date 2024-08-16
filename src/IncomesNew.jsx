@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 export function IncomesNew(props) {
-  const incomeSources = ["salary", "freelance", "investment"];
+  const incomeSources = ["salary", "freelance", "investment", "other"];
 
   const [selectedIncomeSource, setSelectedIncomeSource] = useState("");
 
