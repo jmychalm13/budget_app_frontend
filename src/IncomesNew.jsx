@@ -3,8 +3,6 @@
 import { useState } from "react";
 
 export function IncomesNew(props) {
-  const incomeSources = ["salary", "freelance", "investment", "other"];
-
   const [selectedIncomeSource, setSelectedIncomeSource] = useState("");
 
   const handleSubmit = (event) => {
@@ -31,7 +29,7 @@ export function IncomesNew(props) {
                 value={selectedIncomeSource}
                 onChange={(e) => setSelectedIncomeSource(e.target.value)}
               >
-                {incomeSources.map((source) => (
+                {props.incomeSources.map((source) => (
                   <option value={source} key={source}>
                     {source}
                   </option>

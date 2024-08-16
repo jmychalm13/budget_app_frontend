@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { IncomesNew } from "./IncomesNew";
 
 export function IncomesIndex() {
+  const incomeSources = ["salary", "freelance", "investments", "other"];
   const [incomes, setIncomes] = useState([]);
 
   const calculateTotalIncome = (incomes) => {
@@ -33,7 +34,7 @@ export function IncomesIndex() {
   return (
     <div className="bg-light vh-100">
       <div className="container">
-        <IncomesNew handleCreateIncome={handleCreateIncome} />
+        <IncomesNew handleCreateIncome={handleCreateIncome} incomeSources={incomeSources} />
         <h1 className="text-center">All Income</h1>
         <table className="table table-responsive border">
           <thead>

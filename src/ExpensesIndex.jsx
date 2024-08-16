@@ -2,14 +2,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { ExpensesNew } from "./ExpensesNew";
 
-const calculateTotalExpenses = (expenses) => {
-  return expenses.reduce((total, expense) => {
-    const amount = Number(expense.amount);
-    return total + (isNaN(amount) ? 0 : amount);
-  }, 0);
-};
-
 export function ExpensesIndex() {
+  const expenseCategories = ["housing", "utilities", "food", "entertainment"];
   const [expenses, setExpenses] = useState([]);
 
   const handleIndexExpenses = () => {
@@ -25,6 +19,13 @@ export function ExpensesIndex() {
     });
   };
 
+  const calculateTotalExpenses = (expenses) => {
+    return expenses.reduce((total, expense) => {
+      const amount = Number(expense.amount);
+      return total + (isNaN(amount) ? 0 : amount);
+    }, 0);
+  };
+
   const totalExpenses = calculateTotalExpenses(expenses);
   const formattedTotalExpenses = isNaN(totalExpenses) ? 0 : totalExpenses.toFixed(2);
 
@@ -32,7 +33,7 @@ export function ExpensesIndex() {
 
   return (
     <div>
-      <ExpensesNew onCreateExpense={handleCreateExpense} />
+      <ExpensesNew onCreateExpense={handleCreateExpense} expenseCategories={expenseCategories} />
       <div className="container">
         <h1 className="">All Expenses</h1>
         <table className="table table-responsive border">

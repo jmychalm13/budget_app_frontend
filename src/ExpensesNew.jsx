@@ -2,8 +2,6 @@
 import { useState } from "react";
 
 export function ExpensesNew(props) {
-  const expenseCategories = ["living expenses", "loans and other debt", "entertainment", "food"];
-
   const [selectedExpenseCategory, setSelectedExpenseCategory] = useState("");
 
   const handleSubmit = (event) => {
@@ -30,7 +28,7 @@ export function ExpensesNew(props) {
                 value={selectedExpenseCategory}
                 onChange={(e) => setSelectedExpenseCategory(e.target.value)}
               >
-                {expenseCategories.map((category) => (
+                {props.expenseCategories.map((category) => (
                   <option value={category} key={category}>
                     {category}
                   </option>
