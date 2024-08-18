@@ -51,6 +51,8 @@ export function FinancialSummary() {
     let sources = incomes.reduce((acc, income) => {
       const { source, amount } = income;
 
+      const numericAmount = parseFloat(amount);
+
       // find the existing entry for the source
       let sourceEntry = acc.find((entry) => entry.source === source);
       // if the source entry doesn't exist, create it
@@ -60,7 +62,7 @@ export function FinancialSummary() {
       }
       // add the incomes to the corresponding source entry
       sourceEntry.incomes.push(income);
-      sourceEntry.total += amount;
+      sourceEntry.total += isNaN(numericAmount) ? 0 : numericAmount;
 
       return acc;
     }, []);
@@ -105,9 +107,15 @@ export function FinancialSummary() {
             <strong>{findTotalIncome(incomes)}</strong>
           </p>
         </div>
-        <div>
+        <div className="income-summary">
+          <h3>Totals By Source</h3>
           {incomeSummaryData.map((summary, index) => (
-            <div key={index}>{summary.source}</div>
+            <div key={index} className="d-flex justify-content-between">
+              <div>
+                <p className="font-bold">{summary.source}</p>
+              </div>
+              <div>{summary.total}</div>
+            </div>
           ))}
         </div>
       </div>
