@@ -1,5 +1,9 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { Doughnut } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 export function FinancialSummary() {
   const [incomes, setIncomes] = useState([]);
@@ -8,27 +12,6 @@ export function FinancialSummary() {
   const [expenseSummaryData, setExpenseSummaryData] = useState([]);
 
   // todo: create loader
-
-  // const handleFetchData = () => {
-  //   axios
-  //     .get("http://localhost:3000/incomes.json")
-  //     .then((response) => {
-  //       setIncomes(response.data);
-  //     })
-  //     .then(() => {
-  //       axios
-  //         .get("http://localhost:3000/expenses.json")
-  //         .then((response) => {
-  //           setExpenses(response.data);
-  //         })
-  //         .catch((error) => {
-  //           console.error("Error fetching expenses", error);
-  //         })
-  //         .catch((error) => {
-  //           console.error("Error fetching data", error);
-  //         });
-  //     });
-  // };
 
   const handleFetchData = () => {
     axios.get("http://localhost:3000/incomes.json").then((response) => {
@@ -117,39 +100,59 @@ export function FinancialSummary() {
 
   useEffect(handleFetchData, []);
 
+  const generateIncomeChartData = () => {
+    const labels = incomeSummaryData.map((item) => item.source);
+    const dataPoints = incomeSummaryData.map((item) => item.total);
+
+    return {
+      labels: labels,
+      datasets: [
+        {
+          label: "Income Distribution",
+          data: dataPoints,
+          backgroundColor: [
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+            "rgba(255, 206, 86, 0.2)",
+            "rgba(75, 192, 192, 0.2)",
+          ],
+          borderColor: [
+            "rgba(255, 99, 132, 1)",
+            "rgba(54, 162, 235, 1)",
+            "rgba(255, 206, 86, 1)",
+            "rgba(75, 192, 192, 1)",
+          ],
+          borderWidth: 1,
+        },
+      ],
+    };
+  };
+
+  const incomeChartData = incomeSummaryData.length ? generateIncomeChartData() : null;
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            return `${context.label}: $${context.raw}`;
+          },
+        },
+      },
+    },
+  };
+
   return (
-    <div className="bg-light vh-100">
+    <div className="bg-light">
       <h1>Financial Summary</h1>
       <div className="income-summary">
-        <h1>Income</h1>
-        <div className="container">
-          <h3>Total Income By Source</h3>
-          <table className="table table-success table-bordered rounded">
-            <thead>
-              <tr>
-                <th scope="col">Source</th>
-                <th scope="col">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              {incomeSummaryData.map((summary, index) => (
-                <tr key={index}>
-                  <td>{summary.source}</td>
-                  <td>{summary.total}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {incomeSummaryData.map((summary, index) => (
-            <div key={index} className="d-flex justify-content-between">
-              <div>
-                <p className="font-bold">{summary.source}</p>
-              </div>
-              <div>
-                <p>{summary.total}</p>
-              </div>
-            </div>
-          ))}
+        <h1 className="text-center">Income Distribution</h1>
+        <div className="w-25 container">
+          {incomeChartData ? <Doughnut data={incomeChartData} options={options} /> : <p>Loading...</p>}
         </div>
       </div>
       <div className="expense-summary">
