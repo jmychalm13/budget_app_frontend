@@ -5,6 +5,7 @@ export function FinancialSummary() {
   const [incomes, setIncomes] = useState([]);
   const [expenses, setExpenses] = useState([]);
   const [incomeSummaryData, setIncomeSummaryData] = useState([]);
+  const [expenseSummaryData, setExpenseSummaryData] = useState([]);
 
   // todo: create loader
 
@@ -39,7 +40,10 @@ export function FinancialSummary() {
       return axios
         .get("http://localhost:3000/expenses.json")
         .then((response) => {
-          setExpenses(response.data);
+          const fetchedExpenses = response.data;
+          setExpenses(fetchedExpenses);
+          const summary = expenseSummary(fetchedExpenses);
+          setExpenseSummaryData(summary);
         })
         .catch((error) => {
           console.error("Error fetching data", error);
@@ -67,6 +71,31 @@ export function FinancialSummary() {
       return acc;
     }, []);
     return sources;
+  };
+
+  const expenseSummary = (expenses) => {
+    let categories = expenses.reduce((acc, expense) => {
+      if (!expense.category || !expense.amount) {
+        console.error("Invalid expense entry:", expense);
+        return acc;
+      }
+      const { category, amount } = expense;
+
+      const numericAmount = parseFloat(amount);
+      if (isNaN(numericAmount)) {
+        console.error("Invalid amount for expense:", amount);
+      }
+      let categoryEntry = acc.find((entry) => entry.category === category);
+
+      if (!categoryEntry) {
+        categoryEntry = { category, total: 0, expenses: [] };
+        acc.push(categoryEntry);
+      }
+      categoryEntry.expenses.push(expense);
+      categoryEntry.total += numericAmount;
+      return acc;
+    }, []);
+    return categories;
   };
 
   let totalIncome = 0;
@@ -107,7 +136,7 @@ export function FinancialSummary() {
             <strong>{findTotalIncome(incomes)}</strong>
           </p>
         </div>
-        <div className="income-summary">
+        <div>
           <h3>Totals By Source</h3>
           {incomeSummaryData.map((summary, index) => (
             <div key={index} className="d-flex justify-content-between">
@@ -134,6 +163,14 @@ export function FinancialSummary() {
           <p>
             <strong>{findTotalExpenses(expenses)}</strong>
           </p>
+        </div>
+        <div>
+          {expenseSummaryData.map((summary, index) => (
+            <div key={index}>
+              <p>{summary.category}</p>
+              <p>{summary.total}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
