@@ -4,30 +4,67 @@ import { useState, useEffect } from "react";
 export function FinancialSummary() {
   const [incomes, setIncomes] = useState([]);
   const [expenses, setExpenses] = useState([]);
+  const [incomeSummaryData, setIncomeSummaryData] = useState([]);
 
   // todo: create loader
 
+  // const handleFetchData = () => {
+  //   axios
+  //     .get("http://localhost:3000/incomes.json")
+  //     .then((response) => {
+  //       setIncomes(response.data);
+  //     })
+  //     .then(() => {
+  //       axios
+  //         .get("http://localhost:3000/expenses.json")
+  //         .then((response) => {
+  //           setExpenses(response.data);
+  //         })
+  //         .catch((error) => {
+  //           console.error("Error fetching expenses", error);
+  //         })
+  //         .catch((error) => {
+  //           console.error("Error fetching data", error);
+  //         });
+  //     });
+  // };
+
   const handleFetchData = () => {
-    axios
-      .get("http://localhost:3000/incomes.json")
-      .then((response) => {
-        console.log(response.data);
-        setIncomes(response.data);
-      })
-      .then(() => {
-        axios
-          .get("http://localhost:3000/expenses.json")
-          .then((response) => {
-            console.log(response.data);
-            setExpenses(response.data);
-          })
-          .catch((error) => {
-            console.error("Error fetching expenses", error);
-          })
-          .catch((error) => {
-            console.error("Error fetching data", error);
-          });
-      });
+    axios.get("http://localhost:3000/incomes.json").then((response) => {
+      const fetchedIncomes = response.data;
+      setIncomes(fetchedIncomes);
+      const summary = incomeSummary(fetchedIncomes);
+      setIncomeSummaryData(summary);
+
+      return axios
+        .get("http://localhost:3000/expenses.json")
+        .then((response) => {
+          setExpenses(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching data", error);
+        });
+    });
+  };
+
+  const incomeSummary = (incomes) => {
+    let sources = incomes.reduce((acc, income) => {
+      const { source, amount } = income;
+
+      // find the existing entry for the source
+      let sourceEntry = acc.find((entry) => entry.source === source);
+      // if the source entry doesn't exist, create it
+      if (!sourceEntry) {
+        sourceEntry = { source, total: 0, incomes: [] };
+        acc.push(sourceEntry);
+      }
+      // add the incomes to the corresponding source entry
+      sourceEntry.incomes.push(income);
+      sourceEntry.total += amount;
+
+      return acc;
+    }, []);
+    return sources;
   };
 
   let totalIncome = 0;
@@ -67,6 +104,11 @@ export function FinancialSummary() {
           <p>
             <strong>{findTotalIncome(incomes)}</strong>
           </p>
+        </div>
+        <div>
+          {incomeSummaryData.map((summary, index) => (
+            <div key={index}>{summary.source}</div>
+          ))}
         </div>
       </div>
       <div className="expense-summary">
