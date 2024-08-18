@@ -36,7 +36,7 @@ export function IncomesIndex() {
       <div className="container">
         <IncomesNew handleCreateIncome={handleCreateIncome} incomeSources={incomeSources} />
         <h1 className="text-center">All Income</h1>
-        <table className="table table-responsive border">
+        <table className="table border table-success">
           <thead>
             <tr>
               <th>Source</th>

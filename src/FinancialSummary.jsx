@@ -118,32 +118,36 @@ export function FinancialSummary() {
   useEffect(handleFetchData, []);
 
   return (
-    <div>
+    <div className="bg-light vh-100">
       <h1>Financial Summary</h1>
       <div className="income-summary">
         <h1>Income</h1>
-        {incomes.map((income) => (
-          <div key={income.id} className="d-flex justify-content-between">
-            <p>{income.source}</p>
-            <p>{income.amount}</p>
-          </div>
-        ))}
-        <div className="d-flex justify-content-between">
-          <p>
-            <strong>Total:</strong>
-          </p>
-          <p>
-            <strong>{findTotalIncome(incomes)}</strong>
-          </p>
-        </div>
-        <div>
-          <h3>Totals By Source</h3>
+        <div className="container">
+          <h3>Total Income By Source</h3>
+          <table className="table table-success table-bordered rounded">
+            <thead>
+              <tr>
+                <th scope="col">Source</th>
+                <th scope="col">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {incomeSummaryData.map((summary, index) => (
+                <tr key={index}>
+                  <td>{summary.source}</td>
+                  <td>{summary.total}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
           {incomeSummaryData.map((summary, index) => (
             <div key={index} className="d-flex justify-content-between">
               <div>
                 <p className="font-bold">{summary.source}</p>
               </div>
-              <div>{summary.total}</div>
+              <div>
+                <p>{summary.total}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -166,9 +170,13 @@ export function FinancialSummary() {
         </div>
         <div>
           {expenseSummaryData.map((summary, index) => (
-            <div key={index}>
-              <p>{summary.category}</p>
-              <p>{summary.total}</p>
+            <div key={index} className="d-flex justify-content-between">
+              <div>
+                <p className="font-bold">{summary.category}</p>
+              </div>
+              <div>
+                <p>{summary.total}</p>
+              </div>
             </div>
           ))}
         </div>
